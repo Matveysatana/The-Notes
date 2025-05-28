@@ -1,7 +1,11 @@
 body {
-  background-color: #1e1e1e;
+  background-color: #181818;
+  font-family: "Source Sans 3", sans-serif;
+  line-height: 1.5;
+  color: #fff;
 }
 
-h1 {
-  color: #fff;
+.app {
+  display: flex;
+  padding: 2rem;
 }
