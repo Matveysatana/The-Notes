@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import './App.css'
 import CardButton from './components/CardButton/CardButton'
 import Header from './components/Header/Header'
@@ -9,16 +10,18 @@ import Body from './layouts/Body/Body'
 import LeftPanel from './layouts/LeftPanel/LeftPanel'
 
 
-const data = [
+const INITIAL_DATA = [
   {
+    id: 1,
     title: "Изучать реакт круто!",
     text: "Я начинал с самых ванильных...",
     date: new Date()
   },
 
   {
-    title: "Мой завтрак!",
-    text: "хммм что же мне сегодня съесть?...",
+    id: 2,
+    title: "Тренировка памяти",
+    text: "Сегодня я должен запомнить...",
     date: new Date()
   },
 ]
@@ -26,7 +29,24 @@ const data = [
 
 
 function App() {
+  const [items, setItems] = useState(INITIAL_DATA)
 
+  const addItem = (item) => {
+    setItems(oldItems => [...oldItems, {
+      title: item.title,
+      text: item.text,
+      date: new Date(item.date),
+      id: Math.max([...oldItems.map(i => i.id)]) + 1
+    }])
+  }
+
+  const sortItem = (a, b) => {
+    if (a.date < b.date) {
+      return 1;
+    } else {
+      return -1
+    }
+  }
 
   return (
     <div className='app'>
@@ -35,25 +55,20 @@ function App() {
         <Header />
         <JournalAddButton />
         <JornalList>
-          <CardButton>
-            <JournalItem
-              title={data[0].title}
-              text={data[0].text}
-              date={data[0].date}
-            />
-          </CardButton>
-          <CardButton>
-            <JournalItem
-              title={data[1].title}
-              text={data[1].text}
-              date={data[1].date}
-            />
-          </CardButton>
+          {items.sort(sortItem).map(el => (
+            <CardButton key={el.id}>
+              <JournalItem
+                title={el.title}
+                text={el.text}
+                date={el.date}
+              />
+            </CardButton>
+          ))}
         </JornalList>
       </LeftPanel>
 
       <Body>
-        <JournalForm/>
+        <JournalForm onSubmit={addItem} />
       </Body>
 
 
