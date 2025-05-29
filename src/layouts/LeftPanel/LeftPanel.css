@@ -1,5 +1,5 @@
 .left-panel {
-    width: 25rem;
+    min-width: 25rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;

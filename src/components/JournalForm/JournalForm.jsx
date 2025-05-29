@@ -43,11 +43,51 @@ const JournalForm = ({ onSubmit }) => {
 
     return (
         <form className={styles["journal-form"]} onSubmit={addJournalItem} >
-            <input type="text" name="title" className={`${styles["input"]} ${formValid.title ? '' : styles['invalid']}`} />
-            <input type="date" name="date" className={`${styles["input"]} ${formValid.date ? '' : styles['invalid']}`} />
-            <input type="text" name="tag" />
-            <textarea name="post" className={`${styles["input"]} ${formValid.post ? '' : styles['invalid']}`}></textarea>
-            <Button text="Сохранить" onClick={() => { console.log("Нажали") }} />
+            <div>
+                <input
+                    type="text"
+                    name="title"
+                    id="title"
+                    className={`${styles["input-title"]} ${formValid.title ? '' : styles['invalid']}`}
+                />
+            </div>
+
+            <div className={styles['label-row']}>
+                <label htmlFor="date" className={styles['form-label']} >
+                    <img src="/calendar.svg" alt="" />
+                    <span>Дата</span>
+                </label>
+                <input
+                    type="date"
+                    name="date"
+                    id="date"
+                    className={`${styles["input"]} ${formValid.date ? '' : styles['invalid']}`}
+                />
+            </div>
+
+            <div className={styles['label-row']}>
+                <label htmlFor="date" className={styles['form-label']} >
+                    <img src="/folder.svg" alt="" />
+                    <span>Метки</span>
+                </label>
+                <input
+                    type="text"
+                    name="tag"
+                    id="tag"
+                    className={styles['input']}
+                />
+            </div>
+
+
+
+
+
+            <textarea
+                name="post"
+                className={`${styles["input"]} ${formValid.post ? '' : styles['invalid']}`}>
+            </textarea>
+
+            <Button text="Сохранить" />
         </form>
     );
 };
