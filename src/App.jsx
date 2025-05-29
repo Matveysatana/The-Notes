@@ -1,9 +1,9 @@
 import './App.css'
-import Button from './components/Button/Button'
 import CardButton from './components/CardButton/CardButton'
 import Header from './components/Header/Header'
 import JornalList from './components/JornalList/JornalList'
 import JournalAddButton from './components/JournalAddButton/JournalAddButton'
+import JournalForm from './components/JournalForm/JournalForm'
 import JournalItem from './components/JournalItem/JournalItem'
 import Body from './layouts/Body/Body'
 import LeftPanel from './layouts/LeftPanel/LeftPanel'
@@ -22,6 +22,7 @@ const data = [
     date: new Date()
   },
 ]
+
 
 
 function App() {
@@ -52,7 +53,7 @@ function App() {
       </LeftPanel>
 
       <Body>
-        body
+        <JournalForm/>
       </Body>
 
 
