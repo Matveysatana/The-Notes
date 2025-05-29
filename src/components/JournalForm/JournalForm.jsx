@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Button from "../Button/Button";
-import "./JournalForm.css"
+import styles from "./JournalForm.module.css"
 
 
 const JournalForm = ({ onSubmit }) => {
@@ -42,11 +42,11 @@ const JournalForm = ({ onSubmit }) => {
     }
 
     return (
-        <form className="journal-form" onSubmit={addJournalItem} >
-            <input type="text" name="title" style={{ border: formValid.title ? undefined : '1px solid red' }} />
-            <input type="date" name="date" style={{ border: formValid.date ? undefined : '1px solid red' }} />
+        <form className={styles["journal-form"]} onSubmit={addJournalItem} >
+            <input type="text" name="title" className={`${styles["input"]} ${formValid.title ? '' : styles['invalid']}`} />
+            <input type="date" name="date" className={`${styles["input"]} ${formValid.date ? '' : styles['invalid']}`} />
             <input type="text" name="tag" />
-            <textarea name="post" style={{ border: formValid.post ? undefined : '1px solid red' }}></textarea>
+            <textarea name="post" className={`${styles["input"]} ${formValid.post ? '' : styles['invalid']}`}></textarea>
             <Button text="Сохранить" onClick={() => { console.log("Нажали") }} />
         </form>
     );

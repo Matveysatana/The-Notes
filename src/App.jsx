@@ -32,7 +32,7 @@ function App() {
   const addItem = (item) => {
     setItems(oldItems => [...oldItems, {
       title: item.title,
-      text: item.text,
+      post: item.post,
       date: new Date(item.date),
       id: oldItems.length > 0 ? Math.max([...oldItems.map(i => i.id)]) + 1 : 1
     }])
