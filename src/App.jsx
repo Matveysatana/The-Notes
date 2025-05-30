@@ -30,6 +30,11 @@ function App() {
     }
   }, [])
 
+  useEffect(() => {
+    if (items.length) {
+      localStorage.setItem('data', JSON.stringify(items))
+    }
+  }, [items])
 
   return (
     <div className='app'>
