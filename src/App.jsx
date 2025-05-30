@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import Header from './components/Header/Header'
 import JornalList from './components/JornalList/JornalList'
@@ -8,26 +8,8 @@ import Body from './layouts/Body/Body'
 import LeftPanel from './layouts/LeftPanel/LeftPanel'
 
 
-const INITIAL_DATA = [
-  // {
-  //   id: 1,
-  //   title: "Изучать реакт круто!",
-  //   text: "Я начинал с самых ванильных...",
-  //   date: new Date()
-  // },
-
-  // {
-  //   id: 2,
-  //   title: "Тренировка памяти",
-  //   text: "Сегодня я должен запомнить...",
-  //   date: new Date()
-  // },
-]
-
-
-
 function App() {
-  const [items, setItems] = useState(INITIAL_DATA)
+  const [items, setItems] = useState([])
 
   const addItem = (item) => {
     setItems(oldItems => [...oldItems, {
@@ -38,6 +20,15 @@ function App() {
     }])
   }
 
+  useEffect(() => {
+    const data = JSON.parse(localStorage.getItem('data'))
+    if (data) {
+      setItems(data.map(item => ({
+        ...item,
+        date: new Date(item.date)
+      })))
+    }
+  }, [])
 
 
   return (
@@ -53,9 +44,6 @@ function App() {
       <Body>
         <JournalForm onSubmit={addItem} />
       </Body>
-
-
-
     </div>
   )
 }

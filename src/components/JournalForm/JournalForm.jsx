@@ -66,7 +66,7 @@ const JournalForm = ({ onSubmit }) => {
             </div>
 
             <div className={styles['label-row']}>
-                <label htmlFor="date" className={styles['form-label']} >
+                <label htmlFor="tag" className={styles['form-label']} >
                     <img src="/folder.svg" alt="" />
                     <span>Метки</span>
                 </label>
@@ -77,10 +77,6 @@ const JournalForm = ({ onSubmit }) => {
                     className={styles['input']}
                 />
             </div>
-
-
-
-
 
             <textarea
                 name="post"
