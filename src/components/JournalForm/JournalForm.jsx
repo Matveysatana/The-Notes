@@ -1,60 +1,45 @@
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, } from "react";
 import Button from "../Button/Button";
 import styles from "./JournalForm.module.css"
+import { formReducer, INITIAL_STATE } from "./JournalForm.state";
 
-const INITIAL_STATE = {
-    title: true,
-    post: true,
-    date: true
-}
+
 
 const JournalForm = ({ onSubmit }) => {
-    const [formValid, setFormValid] = useState(INITIAL_STATE)
 
-    const addJournalItem = (e) => {
-        e.preventDefault()
-        const formData = new FormData(e.target)
-        const formProps = Object.fromEntries(formData)
-        let isFormvalid = true;
-        if (!formProps.title?.trim().length) {
-            setFormValid(state => ({ ...state, title: false }))
-            isFormvalid = false
-        } else {
-            setFormValid(state => ({ ...state, title: true }))
-        }
-        if (!formProps.post?.trim().length) {
-            setFormValid(state => ({ ...state, post: false }))
-            isFormvalid = false
-        } else {
-            setFormValid(state => ({ ...state, post: true }))
-        }
-        if (!formProps.date) {
-            setFormValid(state => ({ ...state, date: false }))
-            isFormvalid = false
-        } else {
-            setFormValid(state => ({ ...state, date: true }))
-        }
-        if (!isFormvalid) {
-            return
-        }
-
-        onSubmit(formProps)
-    }
+    const [fromState, despatchFn] = useReducer(formReducer, INITIAL_STATE)
+    const { isValid, isFormReadyToSubmit, values } = fromState
 
     useEffect(() => {
         let timerId;
-        if (!formValid.title || !formValid.post || !formValid.date) {
+        if (!isValid.title || !isValid.post || !isValid.date) {
             timerId = setTimeout(() => {
                 console.log("Запись не удалась")
-                setFormValid(INITIAL_STATE)
+                despatchFn({ type: "RESET_VALIDITY" })
             }, 2000)
         }
 
         return () => {
             clearTimeout(timerId)
         }
-    }, [formValid])
+    }, [isValid])
 
+
+    useEffect(() => {
+        if (isFormReadyToSubmit) {
+            onSubmit(values)
+            despatchFn({ type: "CLEAR" })
+        }
+    }, [isFormReadyToSubmit])
+
+    const onChange = (e) => {
+        despatchFn({ type: "SET_VALUE", payload: { [e.target.name]: e.target.value } })
+    }
+
+    const addJournalItem = (e) => {
+        e.preventDefault()
+        despatchFn({ type: "SUBMIT" })
+    }
 
     return (
         <form className={styles["journal-form"]} onSubmit={addJournalItem} >
@@ -63,7 +48,9 @@ const JournalForm = ({ onSubmit }) => {
                     type="text"
                     name="title"
                     id="title"
-                    className={`${styles["input-title"]} ${formValid.title ? '' : styles['invalid']}`}
+                    value={values.title}
+                    onChange={onChange}
+                    className={`${styles["input-title"]} ${isValid.title ? '' : styles['invalid']}`}
                 />
             </div>
 
@@ -76,7 +63,9 @@ const JournalForm = ({ onSubmit }) => {
                     type="date"
                     name="date"
                     id="date"
-                    className={`${styles["input"]} ${formValid.date ? '' : styles['invalid']}`}
+                    value={values.date}
+                    onChange={onChange}
+                    className={`${styles["input"]} ${isValid.date ? '' : styles['invalid']}`}
                 />
             </div>
 
@@ -89,13 +78,17 @@ const JournalForm = ({ onSubmit }) => {
                     type="text"
                     name="tag"
                     id="tag"
+                    onChange={onChange}
+                    value={values.tag}
                     className={styles['input']}
                 />
             </div>
 
             <textarea
                 name="post"
-                className={`${styles["input"]} ${formValid.post ? '' : styles['invalid']}`}>
+                onChange={onChange}
+                value={values.post}
+                className={`${styles["input"]} ${isValid.post ? '' : styles['invalid']}`}>
             </textarea>
 
             <Button text="Сохранить" />
