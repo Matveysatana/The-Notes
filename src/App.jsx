@@ -6,6 +6,7 @@ import JournalAddButton from './components/JournalAddButton/JournalAddButton'
 import JournalForm from './components/JournalForm/JournalForm'
 import Body from './layouts/Body/Body'
 import LeftPanel from './layouts/LeftPanel/LeftPanel'
+import { UserContext } from './context/user.context'
 
 function mapItems(items) {
   if (!items) {
@@ -32,19 +33,20 @@ function App() {
 
 
   return (
-    <div className='app'>
+    <UserContext.Provider value={{ userId: 1 }}>
+      <div className='app'>
+        <LeftPanel>
+          <Header />
+          <JournalAddButton />
+          <JornalList items={mapItems(items)}>
+          </JornalList>
+        </LeftPanel>
 
-      <LeftPanel>
-        <Header />
-        <JournalAddButton />
-        <JornalList items={mapItems(items)}>
-        </JornalList>
-      </LeftPanel>
-
-      <Body>
-        <JournalForm onSubmit={addItem} />
-      </Body>
-    </div>
+        <Body>
+          <JournalForm onSubmit={addItem} />
+        </Body>
+      </div>
+    </UserContext.Provider >
   )
 }
 
