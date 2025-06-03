@@ -29,6 +29,15 @@ const JournalForm = ({ onSubmit }) => {
         }
     }
 
+    const onChange = (e) => {
+        despatchFn({ type: "SET_VALUE", payload: { [e.target.name]: e.target.value } })
+    }
+
+    const addJournalItem = (e) => {
+        e.preventDefault()
+        despatchFn({ type: "SUBMIT" })
+    }
+
     useEffect(() => {
         let timerId;
         if (!isValid.title || !isValid.post || !isValid.date) {
@@ -51,18 +60,12 @@ const JournalForm = ({ onSubmit }) => {
         }
     }, [isFormReadyToSubmit, values, onSubmit])
 
-    const onChange = (e) => {
-        despatchFn({ type: "SET_VALUE", payload: { [e.target.name]: e.target.value } })
-    }
-
-    const addJournalItem = (e) => {
-        e.preventDefault()
-        despatchFn({ type: "SUBMIT" })
-    }
+    useEffect(() => {
+        despatchFn({ type: "SET_VALUE", payload: { userId } })
+    }, [userId])
 
     return (
         <form className={styles["journal-form"]} onSubmit={addJournalItem} >
-            {userId}
             <div>
                 <input
                     type="text"
@@ -114,7 +117,7 @@ const JournalForm = ({ onSubmit }) => {
                 className={`${styles["input"]} ${isValid.post ? '' : styles['invalid']}`}>
             </textarea>
 
-            <Button text="Сохранить" />
+            <Button>Сохранить воспоминание</Button>
         </form>
     );
 };
