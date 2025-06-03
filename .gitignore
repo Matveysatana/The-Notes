@@ -1,0 +1,47 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Сбор данны с формы, как это работает и как этим пользоваться
+
+const addJournalItem = (e) => {
+        e.preventDefault()
+        const formData = new FormData(e.target)
+        const formProps = Object.fromEntries(formData)
+        console.log(formProps)
+    }
+
+<form className="journal-form" onSubmit={addJournalItem} >
+    <input type="text" name="title" id="" />
+    <input type="date" name="date" id="" />
+    <input type="text" name="tag" value={value} onChange={inputChange} />
+    <textarea name="post" id=""></textarea>
+    <Button text="Сохранить" onClick={() => {console.log("Нажали")}}/>
+</form>
+
+        const formData = new FormData(e.target)
+в этой переменной записывается объект в виде пар  name: value со всей формы автоматически
+
+        const formProps = Object.fromEntries(formData)
+в этой переменной записывается js объект из предыдущего formData для удобной работы
