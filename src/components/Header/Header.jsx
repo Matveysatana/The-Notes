@@ -1,22 +1,15 @@
-import { useState } from "react";
-import Button from "../Button/Button";
 import SelectUser from "../SelectUser/SelectUser";
 import Logo from "../Logo/Logo";
 
-const logos = ["/logo.svg", "/vite.svg"]
 
 const Header = () => {
-    const [logoIndex, setlogoIndex] = useState(0);
 
-    const toogleLogo = () => {
-        setlogoIndex(state => Number(!state))
-    }
 
     return (
         <>
-            <Logo image={logos[logoIndex]} />
+            <Logo image={"/logo.svg"} />
             <SelectUser />
-            <Button onClick={toogleLogo}>Поменять лого</Button>
+
         </>
     );
 };

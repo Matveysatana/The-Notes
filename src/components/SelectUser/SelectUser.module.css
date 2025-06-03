@@ -1,0 +1,10 @@
+.select {
+    padding: 0.8rem;
+    background: none;
+    border: 1px solid #323232;
+    color: #fff;
+}
+
+.option {
+    color: #000;
+}
