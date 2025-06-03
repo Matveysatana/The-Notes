@@ -6,7 +6,7 @@ import { UserContext } from "../../context/user.context";
 
 
 
-const JournalForm = ({ onSubmit }) => {
+const JournalForm = ({ onSubmit, data }) => {
 
     const [fromState, despatchFn] = useReducer(formReducer, INITIAL_STATE)
     const { isValid, isFormReadyToSubmit, values } = fromState
@@ -14,6 +14,10 @@ const JournalForm = ({ onSubmit }) => {
     const dateRef = useRef();
     const postRef = useRef();
     const { userId } = useContext(UserContext)
+
+    useEffect(() => {
+        despatchFn({ type: 'SET_VALUE', payload: { ...data } });
+    }, [data]);
 
     const focusError = (isValid) => {
         switch (true) {
@@ -57,8 +61,9 @@ const JournalForm = ({ onSubmit }) => {
         if (isFormReadyToSubmit) {
             onSubmit(values)
             despatchFn({ type: "CLEAR" })
+            despatchFn({ type: 'SET_VALUE', payload: { userId } });
         }
-    }, [isFormReadyToSubmit, values, onSubmit])
+    }, [isFormReadyToSubmit, values, onSubmit, userId])
 
     useEffect(() => {
         despatchFn({ type: "SET_VALUE", payload: { userId } })
@@ -87,7 +92,7 @@ const JournalForm = ({ onSubmit }) => {
                     type="date"
                     name="date"
                     id="date"
-                    value={values.date}
+                    value={values.date ? new Date(values.date).toISOString().slice(0, 10) : ''}
                     onChange={onChange}
                     ref={dateRef}
                     className={`${styles["input"]} ${isValid.date ? '' : styles['invalid']}`}
